@@ -88,7 +88,7 @@
 - `e` は `種類~日付~名前~絵文字~色~ひとこと`（1件ごと。2件以上でボードになる）
 - `name` はボードの名前、`msg`（ひとこと）はボード全体に1つ（作成ページでも日ごとではなく最後に1つ入れる）
 - おくるんには、ボードの名前と「あと○日｜🎂 名前」の一覧、「📋 ボードを開く」ボタンのカードで渡す
-- ファイルを書きかえたら `python3 ../q-oqrn/tools/qstamp.py index.html`（create.html も）で `?v=` を付け直す（LINE のブラウザが古いファイルを使い続けないように）
+- 公開は GitHub Actions（`.github/workflows/pages.yml`。中身は Q 共通の line-share の `q-pages.yml`）。push すると、テストと check-code が通ったときだけ Pages に出す。読みこむ JS・CSS の `?v=` は公開のときに付くので、手で付けなくてよい（index.html・create.html とも）
 
 ## おくるんへの渡し方
 
