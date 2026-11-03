@@ -170,3 +170,17 @@ test("お祝いの日：キリのいい日・暦で数える○年（うるう�
   assert.equal(u.party, "ちょうど あと100日");
   assert.equal(until("2027-02-12", "2026-11-03").celebrate, false);
 });
+
+test("お祝いの日：年を書いた記念日と、過ぎたその日までのカウントアップ", () => {
+  const at = (p, now) => C.compute({ title: "X", hasTime: false, ...p, date: new Date(p.date + "T00:00") }, new Date(now + "T10:00"));
+  // 1993-12-27 から 2026-11-03 は 12000日目
+  const y = at({ type: "yearly", date: "1993-12-27" }, "2026-11-03");
+  assert.equal(y.celebrate, true);
+  assert.equal(y.party, "今日で 12,000日目");
+  assert.equal(at({ type: "yearly", date: "1993-12-28" }, "2026-11-03").celebrate, false);
+  // 年なしの記念日は数えない
+  assert.equal(at({ type: "yearly", date: "12-27", noYear: true }, "2026-11-03").celebrate, false);
+  const u = at({ type: "until", date: "2026-07-26" }, "2026-11-03");
+  assert.equal(u.days, 100);
+  assert.equal(u.party, "100日たちました");
+});

@@ -29,7 +29,7 @@
       title = v.celebrate ? `🎉 ${p.title}から ${v.party}！` : `${p.emoji} ${p.title}から`;
       date = `${fmtDate(p.date, false)}から`;
     } else if (after) {
-      title = `${p.emoji} ${p.title}から`;
+      title = `${v.celebrate ? "🎉" : p.emoji} ${p.title}から`;
       date = `${fmtDate(p.date, p.hasTime)}から`;
     } else {
       title = v.today ? `🎉 今日は ${p.title}！` : `${v.celebrate ? "🎉" : p.emoji} ${p.title}まで`;

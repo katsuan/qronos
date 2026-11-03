@@ -109,6 +109,9 @@
   // n 日目がお祝いの日数か（○周年は日数では決まらないので別）
   const isMarkDay = (start, n) => MILESTONE_DAYS.includes(n) || n % KIRI_STEP === 0 || yearsAt(start, n) > 0;
 
+  // n 日目（たった日数）が、日数で決まるお祝いの日（節目・キリのいい日）か
+  const isCountDay = (n) => n > 1 && (MILESTONE_DAYS.includes(n) || n % KIRI_STEP === 0);
+
   // 「あと n 日」がキリのいい日か
   const isKiriLeft = (n) => n > 0 && n % KIRI_STEP === 0;
 
@@ -128,7 +131,9 @@
       const passed = p.date <= now;
       if (passed && !isToday) {
         const days = dayDiff(p.date, now);
-        return { lead: `${p.title}から`, days, unit: "日たちました", target: null, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
+        // 過ぎたあとのカウントアップも、100日たった日などはお祝い
+        const party = isCountDay(days) ? `${days.toLocaleString()}日たちました` : "";
+        return { lead: `${p.title}から`, days, unit: "日たちました", target: null, celebrate: !!party, party, sub: fmtDate(p.date, p.hasTime) };
       }
       if (passed || (isToday && !p.hasTime)) {
         return { lead: "", days: null, today: `今日は ${p.title}！`, target: null, celebrate: true, sub: fmtDate(p.date, p.hasTime) };
@@ -152,14 +157,17 @@
         return { lead: "", days: null, today: `今日は ${nth}${p.title}！`, target: null, celebrate: true, sub: since, nth: count };
       }
       const left = dayDiff(now, next);
+      // 年を書いた記念日は、はじまりの日から数えた日（生まれて10000日目など）もお祝い
+      const nthDay = !p.noYear && p.date <= now ? dayDiff(p.date, now) + 1 : 0;
+      const party = isCountDay(nthDay) ? `今日で ${nthDay.toLocaleString()}日目` : isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "";
       return {
         lead: `${nth}${p.title}まで`,
         prefix: "あと",
         days: left,
         unit: "日",
         target: next,
-        celebrate: isKiriLeft(left),
-        party: isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "",
+        celebrate: !!party,
+        party,
         sub: `${fmtDate(next)}${since ? `\n${since}` : ""}`,
         nth: count
       };
@@ -230,7 +238,8 @@
       count = "今日！";
       sortKey = 0;
     } else if (v.prefix === "あと") {
-      count = `あと${v.days.toLocaleString()}日`;
+      // 年を書いた記念日が、はじまりから数えたお祝いの日（12,000日目など）なら、その日数を出す
+      count = /^今日で /.test(v.party || "") ? v.party.slice(4) : `あと${v.days.toLocaleString()}日`;
       // キリのいい日（あと100日など）は、今日のもののすぐ後ろに
       sortKey = v.celebrate ? 1 : v.target - now;
     } else if (p.type === "since") {
@@ -239,7 +248,7 @@
       sortKey = v.celebrate ? 1 : v.milestone ? v.milestone.date - now : Infinity;
     } else {
       count = `${v.days.toLocaleString()}日前`;
-      sortKey = Infinity;
+      sortKey = v.celebrate ? 1 : Infinity;
     }
     const sub = p.type === "yearly"
       ? `毎年 ${monthDay(p.date)}${v.nth > 0 ? `・${v.nth}回目` : ""}`

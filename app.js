@@ -147,7 +147,7 @@
     $("milestone").hidden = !v.milestone && !v.party;
     $("milestone").innerHTML = "";
     // お祝いの日（100日目・1年・あと100日など）は、そのことを先に
-    if (v.party) $("milestone").append(nowrap(v.prefix === "あと" ? `🎉 ${v.party}` : `🎉 今日で ${v.party}`), document.createElement("br"));
+    if (v.party) $("milestone").append(nowrap(`🎉 ${/^(今日で|ちょうど)/.test(v.party) ? "" : "今日で "}${v.party}`), document.createElement("br"));
     if (v.milestone) {
       const m = v.milestone;
       $("milestone").append(
