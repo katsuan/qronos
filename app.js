@@ -185,9 +185,12 @@
       vr: -0.15 + Math.random() * 0.3,
       c: colors[Math.floor(Math.random() * colors.length)]
     }));
-    const end = Date.now() + 5000;
+    // 5.5秒で止める。急に消えないよう、最後の1.5秒でだんだん薄くする
+    const end = Date.now() + 5500;
+    const FADE = 1500;
     (function frame() {
       ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ctx.globalAlpha = Math.max(0, Math.min(1, (end - Date.now()) / FADE));
       let alive = false;
       for (const s of pieces) {
         s.x += s.vx;
