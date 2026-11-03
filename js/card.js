@@ -23,16 +23,16 @@
     const badges = [];
     if (p.type === "yearly") {
       const nth = v.nth > 0 ? `${v.nth}回目の` : "";
-      title = v.today ? `🎉 今日は ${nth}${p.title}！` : `${p.emoji} ${nth}${p.title}まで`;
+      title = v.today ? `🎉 今日は ${nth}${p.title}！` : `${v.celebrate ? "🎉" : p.emoji} ${nth}${p.title}まで`;
       date = `毎年 ${monthDay(p.date)}`;
     } else if (up) {
-      title = v.celebrate ? `🎉 ${p.title}から ${v.days.toLocaleString()}日目！` : `${p.emoji} ${p.title}から`;
+      title = v.celebrate ? `🎉 ${p.title}から ${v.party}！` : `${p.emoji} ${p.title}から`;
       date = `${fmtDate(p.date, false)}から`;
     } else if (after) {
       title = `${p.emoji} ${p.title}から`;
       date = `${fmtDate(p.date, p.hasTime)}から`;
     } else {
-      title = v.today ? `🎉 今日は ${p.title}！` : `${p.emoji} ${p.title}まで`;
+      title = v.today ? `🎉 今日は ${p.title}！` : `${v.celebrate ? "🎉" : p.emoji} ${p.title}まで`;
       date = fmtDate(p.date, p.hasTime);
     }
     if (up) {

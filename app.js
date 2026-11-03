@@ -144,10 +144,12 @@
       $("cs").textContent = C.pad(t.s);
     }
 
-    $("milestone").hidden = !v.milestone;
+    $("milestone").hidden = !v.milestone && !v.party;
+    $("milestone").innerHTML = "";
+    // お祝いの日（100日目・1年・あと100日など）は、そのことを先に
+    if (v.party) $("milestone").append(nowrap(v.prefix === "あと" ? `🎉 ${v.party}` : `🎉 今日で ${v.party}`), document.createElement("br"));
     if (v.milestone) {
       const m = v.milestone;
-      $("milestone").innerHTML = "";
       $("milestone").append(
         nowrap(`次の記念日：${m.label}まで`),
         " ",
@@ -232,7 +234,8 @@
     $("boardList").replaceChildren(...rows.map((row) => {
       const li = document.createElement("li");
       const a = document.createElement("a");
-      a.className = `board-row${row.v.today ? " is-today" : ""}`;
+      // 今日の日と、お祝いの日（100日目・1年・あと100日など）は色を付ける
+      a.className = `board-row${row.v.today ? " is-today" : row.celebrate ? " is-party" : ""}`;
       // #b ＝ボードから開いた印。開いた先に「ボードに戻る」を出す（共有するリンクには付けない）
       a.href = `${C.buildShareUrl("", Object.fromEntries(new URLSearchParams(row.search)))}#b`;
       a.addEventListener("click", () => {
@@ -252,7 +255,7 @@
       a.append(
         Object.assign(document.createElement("span"), { className: "board-emoji", textContent: row.p.emoji }),
         text,
-        Object.assign(document.createElement("span"), { className: "board-count", textContent: row.count })
+        Object.assign(document.createElement("span"), { className: "board-count", textContent: `${row.celebrate && !row.v.today ? "🎉 " : ""}${row.count}` })
       );
       if (row.p.note) a.append(Object.assign(document.createElement("span"), { className: "board-note", textContent: row.p.note }));
       li.append(a);

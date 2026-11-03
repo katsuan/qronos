@@ -23,8 +23,12 @@
     { key: "berry", label: "ベリー", hex: "#e0457b" }
   ];
 
-  // 「その日から」で節目にする日数（○日目）
-  const MILESTONE_DAYS = [100, 200, 300, 365, 500, 700, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000];
+  // お祝いの日（SQriptable の cd と同じ決まり）
+  //   その日から … ○周年、その前の日の「○年（365日目）」（暦で数えるので、うるう年をまたぐと366日目）、
+  //                 節目の日数（MILESTONE_DAYS）、キリのいい日（KIRI_STEP の倍数）
+  //   その日まで・毎年の記念日 … 「あと100日」のようなキリのいい日
+  const MILESTONE_DAYS = [100, 200, 300, 500, 700, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000];
+  const KIRI_STEP = 100;
 
   const DAY = 864e5;
   const WEEK = "日月火水木金土";
@@ -86,6 +90,28 @@
     return [y && `${y}年`, m && `${m}か月`, d && `${d}日`].filter(Boolean).join("") || "0日";
   }
 
+  // start から n 日目（start が1日目）の日
+  const nthDate = (start, n) => new Date(start.getFullYear(), start.getMonth(), start.getDate() + n - 1);
+
+  // n 日目が、ちょうど何年たった日か（その次の日が○周年なら○年）。ちがえば 0
+  function yearsAt(start, n) {
+    const next = nthDate(start, n + 1);
+    const years = next.getFullYear() - start.getFullYear();
+    return years > 0 && dayDiff(next, inYear(start, next.getFullYear())) === 0 ? years : 0;
+  }
+
+  // 「○日目」の言い方。ちょうど○年たった日は「1年（365日目）」
+  function dayLabel(start, n) {
+    const years = yearsAt(start, n);
+    return years ? `${years}年（${n.toLocaleString()}日目）` : `${n.toLocaleString()}日目`;
+  }
+
+  // n 日目がお祝いの日数か（○周年は日数では決まらないので別）
+  const isMarkDay = (start, n) => MILESTONE_DAYS.includes(n) || n % KIRI_STEP === 0 || yearsAt(start, n) > 0;
+
+  // 「あと n 日」がキリのいい日か
+  const isKiriLeft = (n) => n > 0 && n % KIRI_STEP === 0;
+
   // 名前を入れなかったときの名前
   function defaultTitle(type) {
     return { until: "その日", yearly: "記念日", since: "はじまりの日" }[type];
@@ -109,7 +135,8 @@
       }
       // 当日で時刻がまだのときは「あと0日」ではなく、時・分・秒だけで数える
       if (isToday) return { lead: "", days: null, today: `今日は ${p.title}！`, target: p.date, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
-      return { lead: `${p.title}まで`, prefix: "あと", days: dayDiff(now, p.date), unit: "日", target: p.date, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
+      const left = dayDiff(now, p.date);
+      return { lead: `${p.title}まで`, prefix: "あと", days: left, unit: "日", target: p.date, celebrate: isKiriLeft(left), party: isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "", sub: fmtDate(p.date, p.hasTime) };
     }
 
     if (p.type === "yearly") {
@@ -124,13 +151,15 @@
       if (today) {
         return { lead: "", days: null, today: `今日は ${nth}${p.title}！`, target: null, celebrate: true, sub: since, nth: count };
       }
+      const left = dayDiff(now, next);
       return {
         lead: `${nth}${p.title}まで`,
         prefix: "あと",
-        days: dayDiff(now, next),
+        days: left,
         unit: "日",
         target: next,
-        celebrate: false,
+        celebrate: isKiriLeft(left),
+        party: isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "",
         sub: `${fmtDate(next)}${since ? `\n${since}` : ""}`,
         nth: count
       };
@@ -142,25 +171,35 @@
     }
     const nthDay = dayDiff(p.date, now) + 1;
     const milestone = nextMilestone(p.date, now);
-    const isMilestone = MILESTONE_DAYS.includes(nthDay) || (dayDiff(inYear(p.date, now.getFullYear()), now) === 0 && nthDay > 1);
+    const years = now.getFullYear() - p.date.getFullYear();
+    const party = isMarkDay(p.date, nthDay) ? dayLabel(p.date, nthDay) : years > 0 && dayDiff(inYear(p.date, now.getFullYear()), now) === 0 ? `${years}周年` : "";
     return {
       lead: `${p.title}から`,
       prefix: "今日で",
       days: nthDay,
       unit: "日目",
       target: null,
-      celebrate: isMilestone,
+      celebrate: !!party,
+      party,
       sub: `${fmtDate(p.date, false)}から ${ymd(p.date, now)}`,
       milestone
     };
   }
 
-  // 次の節目（○日目・○周年のうち近いほう）
-  function nextMilestone(start, now) {
+  // 次の「○日目」のお祝いの日（節目・キリのいい日・○年）。{ n, label, date }
+  function nextDayMark(start, now) {
     const nthDay = dayDiff(start, now) + 1;
-    const candidates = [];
-    const dayMark = MILESTONE_DAYS.find((n) => n > nthDay);
-    if (dayMark) candidates.push({ label: `${dayMark}日目`, date: new Date(start.getFullYear(), start.getMonth(), start.getDate() + dayMark - 1) });
+    const ns = [...MILESTONE_DAYS.filter((n) => n > nthDay), (Math.floor(nthDay / KIRI_STEP) + 1) * KIRI_STEP];
+    let year = now.getFullYear();
+    while (dayDiff(now, inYear(start, year)) <= 1) year++;
+    ns.push(dayDiff(start, inYear(start, year)));
+    const n = Math.min(...ns);
+    return { n, label: dayLabel(start, n), date: nthDate(start, n) };
+  }
+
+  // 次のお祝いの日（○日目・○年・○周年のうち近いほう）
+  function nextMilestone(start, now) {
+    const candidates = [nextDayMark(start, now)];
     let year = now.getFullYear();
     let anniv = inYear(start, year);
     if (dayDiff(now, anniv) <= 0) anniv = inYear(start, ++year);
@@ -192,11 +231,12 @@
       sortKey = 0;
     } else if (v.prefix === "あと") {
       count = `あと${v.days.toLocaleString()}日`;
-      sortKey = v.target - now;
+      // キリのいい日（あと100日など）は、今日のもののすぐ後ろに
+      sortKey = v.celebrate ? 1 : v.target - now;
     } else if (p.type === "since") {
       count = `${v.days.toLocaleString()}日目`;
-      // 次の節目（○日目・○周年）が近いものほど上に
-      sortKey = v.milestone ? v.milestone.date - now : Infinity;
+      // お祝いの日は今日のもののすぐ後ろに。ふだんは次のお祝いの日が近いものほど上に
+      sortKey = v.celebrate ? 1 : v.milestone ? v.milestone.date - now : Infinity;
     } else {
       count = `${v.days.toLocaleString()}日前`;
       sortKey = Infinity;
@@ -217,5 +257,5 @@
   }
 
   // ほかのファイル・画面から使うもの
-  Object.assign(C, { COLORS, DAY, LINE_URI_MAX, MILESTONE_DAYS, TYPES, compute, dayDiff, defaultTitle, fmtDate, inYear, monthDay, pad, parseDate, parts, sortedRows });
+  Object.assign(C, { COLORS, DAY, KIRI_STEP, LINE_URI_MAX, MILESTONE_DAYS, TYPES, compute, dayLabel, nextDayMark, dayDiff, defaultTitle, fmtDate, inYear, monthDay, pad, parseDate, parts, sortedRows });
 })((window.Countdown = window.Countdown || {}));

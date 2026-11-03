@@ -151,3 +151,22 @@ test("リンク（大会の見る人用リンクなど）：https だけ。短�
   }
   assert.equal(C.shortUrl("https://katsuan.github.io/countdown/?date=2030-01-01&title=a&link=" + encodeURIComponent(link)).includes("?z="), true);
 });
+
+test("お祝いの日：キリのいい日・暦で数える○年（うるう年）・○周年（SQriptable の cd と同じ）", () => {
+  const since = (date, now) => C.compute({ type: "since", title: "X", date: new Date(date + "T00:00"), hasTime: false }, new Date(now + "T10:00"));
+  const until = (date, now) => C.compute({ type: "until", title: "X", date: new Date(date + "T00:00"), hasTime: false }, new Date(now + "T10:00"));
+  assert.equal(since("2025-09-30", "2026-11-03").party, "400日目");
+  assert.equal(since("2025-11-04", "2026-11-03").party, "1年（365日目）");
+  // うるう年をまたぐと 365日目はふつうの日、366日目が1年
+  assert.equal(since("2023-11-04", "2024-11-02").party, "");
+  assert.equal(since("2023-11-04", "2024-11-03").party, "1年（366日目）");
+  assert.equal(since("2023-11-04", "2024-11-02").milestone.label, "1年（366日目）");
+  // 2月29日はじまり：ほかの年は2月28日が周年なので、2月27日が1年
+  assert.equal(since("2024-02-29", "2025-02-27").party, "1年（365日目）");
+  assert.equal(since("2024-02-29", "2025-02-28").party, "1周年");
+  assert.equal(since("2025-10-05", "2026-11-03").milestone.label, "400日目");
+  const u = until("2027-02-11", "2026-11-03");
+  assert.equal(u.celebrate, true);
+  assert.equal(u.party, "ちょうど あと100日");
+  assert.equal(until("2027-02-12", "2026-11-03").celebrate, false);
+});

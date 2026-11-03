@@ -3,7 +3,7 @@
 // 読まれるところ：index.html・create.html（js/card.js のあと）
 (function (C) {
   "use strict";
-  const { MILESTONE_DAYS, dayDiff, inYear, pad } = C;
+  const { dayDiff, inYear, nextDayMark, pad } = C;
 
   // ---- Google カレンダーに追加 ----
   const ymdText = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
@@ -57,7 +57,7 @@
    * label はボタンの1行目（短く）、sub は2行目（日付など）。スマホの幅で変なところで折り返さないように分ける
    *   その日まで … その日（時刻があればその時刻）
    *   毎年の記念日 … 次の日を毎年くり返す予定で
-   *   その日から … 次の節目（100日目・1000日目など）と、毎年の○周年
+   *   その日から … 次のお祝いの日（100日目・1年など）と、毎年の○周年
    */
   function calendarLinks(p, pageUrl, now = new Date()) {
     // event はカレンダーのファイル（icsText）用に同じ中身を持っておく
@@ -72,13 +72,9 @@
     }
     if (p.type === "since" && p.date <= now) {
       const links = [];
-      // 次の「○日目」の節目（周年のほうが近くても出す）
-      const nthDay = dayDiff(p.date, now) + 1;
-      const dayMark = MILESTONE_DAYS.find((n) => n > nthDay);
-      if (dayMark) {
-        const date = new Date(p.date.getFullYear(), p.date.getMonth(), p.date.getDate() + dayMark - 1);
-        links.push({ label: `🗓️ ${dayMark.toLocaleString()}日目を追加`, sub: `${date.getFullYear()}/${label(date)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}から${dayMark.toLocaleString()}日目`, date, details }) });
-      }
+      // 次の「○日目」のお祝いの日（周年のほうが近くても出す）
+      const mark = nextDayMark(p.date, now);
+      links.push({ label: `🗓️ ${mark.label}を追加`, sub: `${mark.date.getFullYear()}/${label(mark.date)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}から${mark.label}`, date: mark.date, details }) });
       let anniv = inYear(p.date, now.getFullYear());
       if (dayDiff(now, anniv) <= 0) anniv = inYear(p.date, now.getFullYear() + 1);
       links.push({ label: "🗓️ 毎年の記念日を追加", sub: `次は ${label(anniv)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}の記念日`, date: anniv, yearly: true, details }) });
