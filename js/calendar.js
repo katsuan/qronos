@@ -68,21 +68,21 @@
     if (p.type === "yearly") {
       let next = inYear(p.date, now.getFullYear());
       if (dayDiff(now, next) < 0) next = inYear(p.date, now.getFullYear() + 1);
-      return [{ label: "🗓️ 毎年の予定として追加", sub: `次は ${label(next)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}`, date: next, yearly: true, details }) }];
+      return [{ label: "毎年の予定として追加", sub: `次は ${label(next)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}`, date: next, yearly: true, details }) }];
     }
     if (p.type === "since" && p.date <= now) {
       const links = [];
       // 次の「○日目」のお祝いの日（周年のほうが近くても出す）
       const mark = nextDayMark(p.date, now);
-      links.push({ label: `🗓️ ${mark.label}を追加`, sub: `${mark.date.getFullYear()}/${label(mark.date)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}から${mark.label}`, date: mark.date, details }) });
+      links.push({ label: `${mark.label}を追加`, sub: `${mark.date.getFullYear()}/${label(mark.date)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}から${mark.label}`, date: mark.date, details }) });
       let anniv = inYear(p.date, now.getFullYear());
       if (dayDiff(now, anniv) <= 0) anniv = inYear(p.date, now.getFullYear() + 1);
-      links.push({ label: "🗓️ 毎年の記念日を追加", sub: `次は ${label(anniv)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}の記念日`, date: anniv, yearly: true, details }) });
+      links.push({ label: "毎年の記念日を追加", sub: `次は ${label(anniv)}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}の記念日`, date: anniv, yearly: true, details }) });
       return links;
     }
     if (dayDiff(now, p.date) < 0) return [];
     const when = `${p.date.getFullYear()}/${label(p.date)}${p.hasTime ? ` ${p.date.getHours()}:${pad(p.date.getMinutes())}` : ""}`;
-    return [{ label: "🗓️ カレンダーに追加", sub: `${when}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}`, date: p.date, hasTime: p.hasTime, details }) }];
+    return [{ label: "カレンダーに追加", sub: `${when}・Googleカレンダー`, ...ev({ title: `${p.emoji} ${p.title}`, date: p.date, hasTime: p.hasTime, details }) }];
   }
 
   // ほかのファイル・画面から使うもの

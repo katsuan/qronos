@@ -33,17 +33,17 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--ls-space-m);
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: var(--ls-space-l) var(--ls-space-m) var(--ls-space-xxl);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px 16px;
+  gap: var(--ls-space-m);
+  padding: var(--ls-space-l) var(--ls-space-m);
   border-radius: var(--radius-lg);
   background: var(--card);
   box-shadow: var(--shadow);
@@ -55,18 +55,18 @@ h1 { font-size: 26px; font-weight: 800; line-height: 1.35; }
 
 /* 名前（くろのす 〜Qronos〜）。作成ページの上と、表示ページの「はじめる」に出す */
 .brand-mark { display: block; margin: 0 auto; }
-.brand-name { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 20px; font-weight: 800; color: var(--ink); }
+.brand-name { display: flex; align-items: center; gap: var(--ls-space-s); margin: 0; font-size: 20px; font-weight: 800; color: var(--ink); }
 .brand-en { font-size: 13px; letter-spacing: 0.02em; }
 
 /* 名前の由来（たたんだ欄） */
 .about summary { font-size: 15px; font-weight: 700; cursor: pointer; }
-.about p { margin: 8px 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.8; }
+.about p { margin: var(--ls-space-s) 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.8; }
 a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 
 .btn {
   display: block;
   width: 100%;
-  padding: 16px;
+  padding: var(--ls-space-m);
   border: none;
   border-radius: 99px;
   background: var(--accent);
@@ -80,10 +80,10 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 }
 
 /* 送るボタン：色は Q キットの ls-button line（LINE の緑）。ここでは大きさだけ */
-.ls-button.line { gap: 4px; flex-wrap: wrap; min-height: 54px; font-size: 18px; font-weight: 800; }
+.ls-button.line { gap: var(--ls-space-xs); flex-wrap: wrap; min-height: 54px; font-size: 18px; font-weight: 800; }
 .btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); font-size: 16px; }
-.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.btn-row .btn { padding: 16px 8px; font-size: 15px; white-space: nowrap; }
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ls-space-s); }
+.btn-row .btn { padding: var(--ls-space-m) var(--ls-space-s); font-size: 15px; white-space: nowrap; }
 
 /* 画像で保存：作った画像を出して、長押しで保存してもらう */
 .snap-sheet {
@@ -92,16 +92,16 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
   z-index: 10;
   display: grid;
   place-items: center;
-  padding: 16px;
+  padding: var(--ls-space-m);
   background: rgba(20, 16, 40, 0.55);
 }
 .snap-card {
   display: grid;
-  gap: 8px;
+  gap: var(--ls-space-s);
   width: min(100%, 420px);
   max-height: 100%;
   overflow: auto;
-  padding: 16px;
+  padding: var(--ls-space-m);
   border-radius: var(--radius-lg);
   background: #fff;
   text-align: center;
@@ -113,7 +113,17 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   -webkit-touch-callout: default;
 }
-.snap-actions { display: grid; gap: 8px; }
+.snap-actions { display: grid; gap: var(--ls-space-s); }
 
 /* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目）。ツールの色はボタンだけに使うので、うすい字に */
-.brand-copy { margin: 0 0 8px; color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
+.brand-copy { margin: 0 0 var(--ls-space-s); color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
+
+/* ボタン・リンクの前の線アイコン（Q キットの .ls-icon）と、字の間 */
+.btn .ls-icon, .ics-link .ls-icon, .back-link .ls-icon, .milestone .ls-icon, .board-count .ls-icon { margin-right: var(--ls-space-s); }
+.btn { display: flex; align-items: center; justify-content: center; }
+.calendar-links .btn, .ext-link { display: grid; }
+.board-mark { width: 40px; height: 40px; color: var(--ink-soft); }
+/* 狭い画面（320px など）では、2つ並びのボタンを1つずつに（字がボタンからはみ出さないように） */
+@media (max-width: 359px) {
+  .btn-row { grid-template-columns: 1fr; }
+}

@@ -31,13 +31,13 @@
 <style>
   .hero { text-align: center; }
   .hero .emoji { font-size: 56px; line-height: 1.2; }
-  .hero .from { margin-top: 4px; font-size: 16px; font-weight: 700; color: var(--ink-soft); }
+  .hero .from { margin-top: var(--ls-space-xs); font-size: 16px; font-weight: 700; color: var(--ink-soft); }
 
   .count { align-items: center; text-align: center; }
   .count .lead { font-size: 20px; font-weight: 800; }
   .count .big { font-size: 22px; font-weight: 700; line-height: 1.2; }
   .count .big b {
-    margin: 0 6px;
+    margin: 0 var(--ls-space-s);
     font-size: 72px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
@@ -46,14 +46,14 @@
   .count .today { font-size: 30px; font-weight: 800; color: var(--accent); line-height: 1.4; }
   .count .date { font-size: 16px; color: var(--ink-soft); white-space: pre-line; }
 
-  .clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
-  .clock div { padding: 8px 4px; border-radius: var(--radius-md); background: #fff; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
+  .clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ls-space-s); width: 100%; }
+  .clock div { padding: var(--ls-space-s) var(--ls-space-xs); border-radius: var(--radius-md); background: #fff; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
   .clock b { display: block; font-size: 26px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .clock span { font-size: 14px; color: var(--ink-soft); }
 
   .milestone {
     width: 100%;
-    padding: 16px;
+    padding: var(--ls-space-m);
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--accent) 10%, #fff);
     font-size: 16px;
@@ -69,7 +69,7 @@
   .back-link {
     justify-self: start;
     align-self: flex-start;
-    padding: 8px 16px;
+    padding: var(--ls-space-s) var(--ls-space-m);
     border-radius: 99px;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -78,25 +78,26 @@
     font-weight: 700;
     text-decoration: none;
   }
-  .calendar-links { display: grid; gap: 8px; }
+  .calendar-links { display: grid; gap: var(--ls-space-s); }
   .nw { display: inline-block; white-space: nowrap; }
-  .ics-link { justify-self: center; margin-top: -2px; padding: 4px 8px; border: none; background: none; color: var(--ink-soft); font-family: inherit; font-size: 14px; font-weight: 700; text-decoration: underline; cursor: pointer; }
-  .calendar-links .btn { display: grid; gap: 2px; padding: 16px 8px; font-size: 16px; line-height: 1.35; }
+  .ics-link { justify-self: center; margin-top: -2px; padding: var(--ls-space-xs) var(--ls-space-s); border: none; background: none; color: var(--ink-soft); font-family: inherit; font-size: 14px; font-weight: 700; text-decoration: underline; cursor: pointer; }
+  .calendar-links .btn { display: grid; gap: 2px; padding: var(--ls-space-m) var(--ls-space-s); font-size: 16px; line-height: 1.35; }
   .calendar-links .btn span { white-space: nowrap; }
-  .ext-link { display: grid; gap: 2px; margin: 16px 0; padding: 16px 8px; text-align: center; text-decoration: none; line-height: 1.35; }
+  .ext-link { display: grid; gap: 2px; margin: var(--ls-space-m) 0; padding: var(--ls-space-m) var(--ls-space-s); text-align: center; text-decoration: none; line-height: 1.35; }
   .ext-link small { font-size: 12px; font-weight: 700; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .calendar-links .btn small { font-size: 13px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+  #suqsuqLink small { white-space: normal; } /* すくすくの説明は長いので、狭い画面では折り返す */
 
   /* ボード（いくつかの日をまとめて表示）。近い順に1行ずつ */
-  .board-head { display: grid; gap: 4px; }
+  .board-head { display: grid; gap: var(--ls-space-xs); }
   .board-head .stamp { font-size: 14px; color: var(--ink-soft); }
-  .board-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .board-list { display: grid; gap: var(--ls-space-s); margin: 0; padding: 0; list-style: none; }
   .board-row {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
+    gap: var(--ls-space-m);
+    padding: var(--ls-space-m);
     border-left: 6px solid var(--row);
     border-radius: var(--radius-md);
     background: #fff;
@@ -108,8 +109,8 @@
   .board-emoji { font-size: 30px; line-height: 1; }
   .board-title { font-size: 17px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
   .board-sub { font-size: 13px; color: var(--ink-soft); }
-  .board-note { grid-column: 2 / -1; margin-top: -4px; font-size: 13px; font-weight: 700; color: var(--row); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hero .note { margin-top: 4px; font-size: 17px; font-weight: 700; color: var(--ink-soft); }
+  .board-note { grid-column: 2 / -1; margin-top: calc(var(--ls-space-xs) * -1); font-size: 13px; font-weight: 700; color: var(--row); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero .note { margin-top: var(--ls-space-xs); font-size: 17px; font-weight: 700; color: var(--ink-soft); }
   .board-count { font-size: 20px; font-weight: 800; color: var(--row); white-space: nowrap; font-variant-numeric: tabular-nums; }
   [hidden] { display: none !important; }
 
@@ -132,7 +133,7 @@
 
   <section id="board" hidden>
     <div class="board-head">
-      <div style="font-size:44px;line-height:1.2">📋</div>
+      <span class="ls-icon board-mark" data-icon="list" aria-hidden="true"></span>
       <h1 id="boardName"></h1>
       <p id="boardFrom" class="sub" hidden></p>
     </div>
@@ -163,7 +164,7 @@
   <!-- すくすく（SuQSuQ）へ：子どもの生まれた日なら「生まれて◯日」、出産予定日なら「妊娠◯週」、ほかのはじまりの日なら「◯◯から◯日目」を写真・動画に入れる -->
   <section id="suqsuqCard" class="card" hidden>
     <div class="calendar-links">
-      <a id="suqsuqLink" class="btn ghost" href="https://katsuan.github.io/suqsuq/" target="_blank" rel="noopener"><span>🌱 すくすくで写真に入れる</span><small id="suqsuqSub"></small></a>
+      <a id="suqsuqLink" class="btn ghost" href="https://katsuan.github.io/suqsuq/" target="_blank" rel="noopener"><span><span class="ls-icon" data-icon="sprout" aria-hidden="true"></span>すくすくで写真に入れる</span><small id="suqsuqSub"></small></a>
     </div>
   </section>
 
@@ -174,10 +175,10 @@
   <section id="shareCard" class="card" hidden>
     <a id="lineBtn" class="ls-button is-block line is-oqrn" href="#">カードでおくるん</a>
     <div class="btn-row">
-      <button id="copyBtn" class="btn ghost" type="button">🔗 リンクをコピー</button>
-      <a id="editBtn" class="btn ghost" href="create.html">✏️ 自分でも作る</a>
+      <button id="copyBtn" class="btn ghost" type="button"><span class="ls-icon" data-icon="link" aria-hidden="true"></span>リンクをコピー</button>
+      <a id="editBtn" class="btn ghost" href="create.html"><span class="ls-icon" data-icon="edit" aria-hidden="true"></span>自分でも作る</a>
     </div>
-    <button id="snapBtn" class="btn ghost" type="button">📷 画像で保存</button>
+    <button id="snapBtn" class="btn ghost" type="button"><span class="ls-icon" data-icon="camera" aria-hidden="true"></span>画像で保存</button>
     <p class="note">カードで送ると、日付の入ったカードが LINE に届きます。カードのボタンから、いつでもこのページで「あと何日？」を確かめられます。</p>
   </section>
 

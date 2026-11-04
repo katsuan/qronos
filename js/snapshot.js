@@ -11,6 +11,14 @@
   const INK = "#2f2a44";
   const SOFT = "#6b6680";
 
+  // ボタンの前の線アイコン（Q キットの ui.css の .ls-icon）
+  function lineIcon(name) {
+    const el = Object.assign(document.createElement("span"), { className: "ls-icon" });
+    el.dataset.icon = name;
+    el.setAttribute("aria-hidden", "true");
+    return el;
+  }
+
   // 画像の文字の書体（大きさ・太さ）
   function font(size, weight = 800) {
     return `${weight} ${size}px ${FONT}`;
@@ -208,11 +216,13 @@
     sheet.querySelector("img").src = url;
     const actions = sheet.querySelector(".snap-actions");
     if (navigator.canShare?.({ files: [file] })) {
-      const share = Object.assign(document.createElement("button"), { type: "button", className: "btn", textContent: "📤 共有・保存" });
+      const share = Object.assign(document.createElement("button"), { type: "button", className: "btn" });
+      share.append(lineIcon("share"), "共有・保存");
       share.onclick = () => navigator.share({ files: [file] }).catch(() => {});
       actions.append(share);
     }
-    const download = Object.assign(document.createElement("a"), { className: "btn ghost", href: url, download: file.name, textContent: "⬇️ ダウンロード" });
+    const download = Object.assign(document.createElement("a"), { className: "btn ghost", href: url, download: file.name });
+    download.append(lineIcon("save"), "ダウンロード");
     actions.append(download);
     // 窓を閉じて、画像の URL を片づける
     const close = () => {

@@ -265,7 +265,7 @@
     $("lineBtn").href = cardUrl;
     $("openBtn").href = shareUrl;
     // 季節の絵文字をときどき
-    $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { done: window.QSeason ? QSeason.decorate("🔗 リンクをコピーしました") : "🔗 リンクをコピーしました" });
+    $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { done: window.QSeason ? QSeason.decorate("リンクをコピーしました") : "リンクをコピーしました" });
     $("out").hidden = false;
     $("out").scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -365,7 +365,7 @@
     }
     LineShareUI.firstTip(
       "qronos",
-      ["何を数えるか選んで、名前と日付を入れます", "「＋ もう1つの日を足す」で、いくつかの日を1つのボードにまとめられます", "「⏳ ページを作る」→「カードでおくるん」で、受け取った人がいつでも「あと何日？」を見られます"],
+      ["何を数えるか選んで、名前と日付を入れます", "「＋ もう1つの日を足す」で、いくつかの日を1つのボードにまとめられます", "「ページを作る」→「カードでおくるん」で、受け取った人がいつでも「あと何日？」を見られます"],
       form
     );
   });

@@ -45,8 +45,8 @@
   .ls-label { font-size: 16px; color: var(--ink); }
   .ls-input { font-size: 17px; border-width: 2px; }
   textarea.ls-input { min-height: 80px; resize: vertical; }
-  .opt { margin-left: 4px; font-size: 13px; font-weight: 400; color: var(--ink-soft); white-space: nowrap; }
-  .ls-panel { gap: 16px; padding: 24px 16px; }
+  .opt { margin-left: var(--ls-space-xs); font-size: 13px; font-weight: 400; color: var(--ink-soft); white-space: nowrap; }
+  .ls-panel { gap: var(--ls-space-m); padding: var(--ls-space-l) var(--ls-space-m); }
   /* キャッチコピーはうすい字に（ツールの色はボタンだけに使う） */
   .ls-brand-copy { color: var(--ink-soft); }
   /* iOS Safari の日付入力は固有の最小幅を持つためリセットしてはみ出しを防ぐ */
@@ -58,18 +58,18 @@
     max-width: 100%;
     min-height: 50px;
   }
-  .row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 8px; }
+  .row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--ls-space-s); }
   .row > * { min-width: 0; }
 
   /* 種類 */
-  .types { display: grid; gap: 8px; }
+  .types { display: grid; gap: var(--ls-space-s); }
   .types label { display: block; margin: 0; font-size: 16px; font-weight: 700; }
   .types input { position: absolute; opacity: 0; pointer-events: none; }
   .types span {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 16px;
+    gap: var(--ls-space-s);
+    padding: var(--ls-space-m);
     border: 2px solid var(--line);
     border-radius: var(--radius-md);
     background: #fff;
@@ -81,12 +81,12 @@
   .types input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--accent) 40%, transparent); }
 
   /* 絵文字・色 */
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--ls-space-s); }
   .chips button {
     min-width: 44px;
     height: 44px;
     border: 2px solid var(--line);
-    border-radius: 12px;
+    border-radius: var(--ls-radius-md);
     background: #fff;
     font-size: 22px;
     cursor: pointer;
@@ -96,7 +96,7 @@
   .chips .color[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--ink); }
 
   .preview {
-    padding: 16px;
+    padding: var(--ls-space-m);
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--accent) 10%, #fff);
     font-weight: 700;
@@ -107,21 +107,21 @@
   /* ページを作るは大きく（送るボタン ls-button line の大きさは style.css） */
   .ls-button.make { min-height: 54px; font-size: 18px; font-weight: 800; }
   .about p { margin: 0; }
-  .err-msg { margin-top: 8px; font-size: 15px; font-weight: 700; color: #d14a6f; }
+  .err-msg { margin-top: var(--ls-space-s); font-size: 15px; font-weight: 700; color: #d14a6f; }
   .count { font-size: 13px; color: var(--ink-soft); text-align: right; }
-  .out-block { display: grid; gap: 8px; }
-  .page-msg { padding-top: 16px; border-top: 1px dashed var(--line); }
-  .check-row { display: flex; font-weight: 700; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: -8px 0 0; font-size: 15px; }
+  .out-block { display: grid; gap: var(--ls-space-s); }
+  .page-msg { padding-top: var(--ls-space-m); border-top: 1px dashed var(--line); }
+  .check-row { display: flex; font-weight: 700; flex-wrap: wrap; align-items: center; gap: var(--ls-space-xs) var(--ls-space-s); margin: calc(var(--ls-space-s) * -1) 0 0; font-size: 15px; }
   .check-row input { width: 22px; height: 22px; margin: 0; padding: 0; accent-color: var(--accent); }
   .check-row .opt { flex-basis: 100%; margin: 0 0 0 30px; }
 
   /* ボードにまとめる日の一覧 */
-  .board-box { display: grid; gap: 8px; padding: 16px; border: 2px dashed var(--line); border-radius: var(--radius-md); }
-  .entry-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .entry-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+  .board-box { display: grid; gap: var(--ls-space-s); padding: var(--ls-space-m); border: 2px dashed var(--line); border-radius: var(--radius-md); }
+  .entry-list { display: grid; gap: var(--ls-space-s); margin: 0; padding: 0; list-style: none; }
+  .entry-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--ls-space-s); }
   .entry-edit {
-    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px;
-    padding: 8px; border: 1px solid var(--line); border-left: 5px solid var(--row); border-radius: 10px;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--ls-space-s);
+    padding: var(--ls-space-s); border: 1px solid var(--line); border-left: 5px solid var(--row); border-radius: 10px;
     background: #fff; color: inherit; font-family: inherit; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer;
   }
   .entry-edit em { font-size: 22px; font-style: normal; }
@@ -226,15 +226,15 @@
     <p id="preview" class="preview"></p>
     <!-- 作れないとき（長すぎるなど）は、作るボタンのすぐ上に赤い文字で -->
     <p id="makeErr" class="err-msg" role="alert" hidden></p>
-    <button class="ls-button is-primary is-block make" type="submit">⏳ ページを作る</button>
+    <button class="ls-button is-primary is-block make" type="submit"><span class="ls-icon" data-icon="wait" aria-hidden="true"></span>ページを作る</button>
   </form>
 
   <section id="out" class="ls-panel" hidden>
-    <h2 style="margin:0;font-size:20px">できました 🎉</h2>
+    <h2 style="margin:0;font-size:20px">できました</h2>
     <div class="out-block">
       <a id="lineBtn" class="ls-button is-block line is-oqrn" href="#">カードでおくるん</a>
-      <button id="copyBtn" class="ls-button is-block" type="button">🔗 リンクをコピー</button>
-      <a id="openBtn" class="ls-button is-block" href="#">👀 開いてみる</a>
+      <button id="copyBtn" class="ls-button is-block" type="button"><span class="ls-icon" data-icon="link" aria-hidden="true"></span>リンクをコピー</button>
+      <a id="openBtn" class="ls-button is-block" href="#"><span class="ls-icon" data-icon="external" aria-hidden="true"></span>開いてみる</a>
     </div>
     <p class="note">受け取った人は、カードのボタンからいつでも最新の「あと何日？」を見られます。</p>
   </section>
@@ -244,7 +244,7 @@
 
   <!-- 名前の由来（時の神 Chronos）。ふだんは閉じておく -->
   <details class="ls-fold about">
-    <summary><span class="ls-fold-icon" aria-hidden="true">⏳</span>「くろのす」という名前について</summary>
+    <summary><span class="ls-fold-icon ls-icon" data-icon="wait" aria-hidden="true"></span>「くろのす」という名前について</summary>
     <div class="ls-fold-body">
     <p>ギリシャ神話で「時」そのものを表す神、<b>クロノス（Chronos）</b>から名付けました。年表を意味する chronology や、正確な時計の chronometer の「chrono」も、この「時」を表すことばから来ています。</p>
     <p>ゼウスの父である農耕の神<b>クロノス（Kronos）</b>とは呼び名が同じで昔から混同されてきましたが、別の神です。大きな鎌と砂時計を持つ「時の翁」の姿は、この2柱が重ねられて生まれたといわれます。</p>

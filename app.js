@@ -13,13 +13,21 @@
   let boardCelebrated = false;
   // 語の途中で折り返さない文字（span）を作る
   const nowrap = (text) => Object.assign(document.createElement("span"), { className: "nw", textContent: text });
+  // Q キットの線アイコン（ui.css の .ls-icon。名前は kit.html の「線アイコン」）
+  const icon = (name) => {
+    const el = Object.assign(document.createElement("span"), { className: "ls-icon" });
+    el.dataset.icon = name;
+    el.setAttribute("aria-hidden", "true");
+    return el;
+  };
 
   // 共有するのはこのページの URL（パラメータ込み）
   // 古い長い形のリンクで開いたときも、共有するのは短い形（?z=）
   const shareUrl = C.shortUrl(location.href.split("#")[0]);
   $("editBtn").href = `create.html${location.search}`;
   // 2秒だけ「コピーしました！」にして、元のボタン名に戻す（Q キット）
-  $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { button: $("copyBtn") });
+  // コピーできたらトーストで（ボタンの字を書きかえると、前の線アイコンが消えるため）
+  $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { done: "リンクをコピーしました" });
 
   // 画面の内容を画像に（1件なら大きな日数、ボードなら一覧）
   $("snapBtn").onclick = () => window.CountdownSnapshot.open(board ? { board, fileName: board.name } : { p, fileName: p.title });
@@ -27,9 +35,10 @@
   // 渡されたリンク（ボード・1件どちらでも）：名前と、どこへ行くか（ドメイン）を出す
   const ext = board || p;
   if (ext?.link) {
-    // 名前が絵文字ではじまるときは、そのまま（🔗 を重ねない）
+    // 名前が絵文字ではじまるときは、そのまま（リンクの印を重ねない）
     const label = ext.linkLabel || "リンクを開く";
-    $("extLinkLabel").textContent = /^\p{Extended_Pictographic}/u.test(label) ? label : `🔗 ${label}`;
+    if (/^\p{Extended_Pictographic}/u.test(label)) $("extLinkLabel").textContent = label;
+    else $("extLinkLabel").replaceChildren(icon("link"), label);
     $("extLinkHost").textContent = new URL(ext.link).host;
     $("extLink").href = ext.link;
     $("extLink").hidden = false;
@@ -71,7 +80,7 @@
       const back = from?.url ? new URL(from.url, location.href) : null;
       if (back && back.origin === location.origin && back.pathname === location.pathname) {
         $("backToBoard").href = back.href;
-        $("backToBoard").textContent = `← 📋 ${String(from.name || "ボード").slice(0, 40)}に戻る`;
+        $("backToBoard").replaceChildren(icon("back"), `${String(from.name || "ボード").slice(0, 40)}に戻る`);
         $("backToBoard").hidden = false;
       }
     } catch (_) {
@@ -84,10 +93,13 @@
   $("calendarCard").hidden = links.length === 0;
   $("calendarLinks").replaceChildren(...links.flatMap((link) => {
     const a = Object.assign(document.createElement("a"), { className: "btn ghost", href: link.url, target: "_blank", rel: "noopener" });
-    a.append(Object.assign(document.createElement("span"), { textContent: link.label }), Object.assign(document.createElement("small"), { textContent: link.sub }));
+    const label = document.createElement("span");
+    label.append(icon("calendar"), link.label);
+    a.append(label, Object.assign(document.createElement("small"), { textContent: link.sub }));
     if (!link.event.yearly) return [a];
     // 毎年くり返す予定は、スマホの Google カレンダーのアプリだとくり返しが外れることがあるので、ファイルでも入れられるように
-    const file = Object.assign(document.createElement("button"), { type: "button", className: "ics-link", textContent: "📥 ファイルで追加（毎年くり返しを確実に）" });
+    const file = Object.assign(document.createElement("button"), { type: "button", className: "ics-link" });
+    file.append(icon("inbox"), "ファイルで追加（毎年くり返しを確実に）");
     file.onclick = () => {
       const blob = new Blob([C.icsText(link.event)], { type: "text/calendar;charset=utf-8" });
       const url = URL.createObjectURL(blob);
@@ -147,7 +159,7 @@
     $("milestone").hidden = !v.milestone && !v.party;
     $("milestone").innerHTML = "";
     // お祝いの日（100日目・1年・あと100日など）は、そのことを先に
-    if (v.party) $("milestone").append(nowrap(`🎉 ${/^(今日で|ちょうど)/.test(v.party) ? "" : "今日で "}${v.party}`), document.createElement("br"));
+    if (v.party) $("milestone").append(icon("celebrate"), nowrap(`${/^(今日で|ちょうど)/.test(v.party) ? "" : "今日で "}${v.party}`), document.createElement("br"));
     if (v.milestone) {
       const m = v.milestone;
       $("milestone").append(
@@ -258,7 +270,12 @@
       a.append(
         Object.assign(document.createElement("span"), { className: "board-emoji", textContent: row.p.emoji }),
         text,
-        Object.assign(document.createElement("span"), { className: "board-count", textContent: `${row.celebrate && !row.v.today ? "🎉 " : ""}${row.count}` })
+        (() => {
+          const count = Object.assign(document.createElement("span"), { className: "board-count" });
+          if (row.celebrate && !row.v.today) count.append(icon("celebrate"));
+          count.append(row.count);
+          return count;
+        })()
       );
       if (row.p.note) a.append(Object.assign(document.createElement("span"), { className: "board-note", textContent: row.p.note }));
       li.append(a);
