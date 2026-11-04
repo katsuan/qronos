@@ -16,14 +16,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* iPhone・LINE の中のブラウザで、キーボードが出て画面がずれたとき、ページの外（黒）が見えないよう、ページそのものにも背景の色 */
-html { background-color: color-mix(in srgb, var(--accent) 14%, #fff); } /* 本文の背景（下へ向かう色）の終わりの色 */
+html { background-color: color-mix(in srgb, var(--accent) 6%, #fff); } /* 本文の背景と同じ色 */
 body {
   min-height: 100vh;
   font-family: var(--font);
   font-size: 17px;
   line-height: 1.6;
   color: var(--ink);
-  background: linear-gradient(180deg, #fff, color-mix(in srgb, var(--accent) 14%, #fff));
+  background: color-mix(in srgb, var(--accent) 6%, #fff);
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
@@ -36,21 +36,21 @@ body {
   gap: 16px;
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 28px 16px 48px;
+  padding: 24px 16px 48px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px 20px;
+  gap: 16px;
+  padding: 24px 16px;
   border-radius: var(--radius-lg);
   background: var(--card);
   box-shadow: var(--shadow);
 }
 
-h1 { font-size: 26px; font-weight: 800; line-height: 1.35; text-align: center; }
-.sub { font-size: 16px; color: var(--ink-soft); text-align: center; }
+h1 { font-size: 26px; font-weight: 800; line-height: 1.35; }
+.sub { font-size: 16px; color: var(--ink-soft); }
 .note { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
 
 /* 名前（くろのす 〜Qronos〜）。作成ページの上と、表示ページの「はじめる」に出す */
@@ -60,7 +60,7 @@ h1 { font-size: 26px; font-weight: 800; line-height: 1.35; text-align: center; }
 
 /* 名前の由来（たたんだ欄） */
 .about summary { font-size: 15px; font-weight: 700; cursor: pointer; }
-.about p { margin: 10px 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.8; }
+.about p { margin: 8px 0 0; font-size: 14px; color: var(--ink-soft); line-height: 1.8; }
 a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 
 .btn {
@@ -77,14 +77,13 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 /* 送るボタン：色は Q キットの ls-button line（LINE の緑）。ここでは大きさだけ */
 .ls-button.line { gap: 4px; flex-wrap: wrap; min-height: 54px; font-size: 18px; font-weight: 800; }
-.btn.ghost { background: #fff; color: var(--ink); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); font-size: 16px; }
-.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.btn-row .btn { padding: 14px 6px; font-size: 15px; white-space: nowrap; }
+.btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); font-size: 16px; }
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-row .btn { padding: 16px 8px; font-size: 15px; white-space: nowrap; }
 
 /* 画像で保存：作った画像を出して、長押しで保存してもらう */
 .snap-sheet {
@@ -98,7 +97,7 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 }
 .snap-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   width: min(100%, 420px);
   max-height: 100%;
   overflow: auto;
@@ -116,5 +115,5 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 }
 .snap-actions { display: grid; gap: 8px; }
 
-/* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目） */
-.brand-copy { margin: 0 0 10px; color: #6C47FF; font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
+/* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目）。ツールの色はボタンだけに使うので、うすい字に */
+.brand-copy { margin: 0 0 8px; color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }

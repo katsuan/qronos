@@ -47,13 +47,13 @@
   .count .date { font-size: 16px; color: var(--ink-soft); white-space: pre-line; }
 
   .clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
-  .clock div { padding: 10px 4px; border-radius: var(--radius-md); background: #fff; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
+  .clock div { padding: 8px 4px; border-radius: var(--radius-md); background: #fff; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
   .clock b { display: block; font-size: 26px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .clock span { font-size: 14px; color: var(--ink-soft); }
 
   .milestone {
     width: 100%;
-    padding: 12px;
+    padding: 16px;
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--accent) 10%, #fff);
     font-size: 16px;
@@ -61,15 +61,15 @@
   }
   .milestone small { display: block; font-size: 14px; font-weight: 400; color: var(--ink-soft); }
 
-  .msg { font-size: 18px; font-weight: 700; white-space: pre-wrap; overflow-wrap: anywhere; text-align: center; }
+  .msg { font-size: 18px; font-weight: 700; white-space: pre-wrap; overflow-wrap: anywhere; }
 
-  .empty { text-align: center; }
+  .empty .brand-mark { margin: 0; }
 
   /* ボードから開いたときの「ボードに戻る」 */
   .back-link {
     justify-self: start;
     align-self: flex-start;
-    padding: 8px 14px;
+    padding: 8px 16px;
     border-radius: 99px;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -81,22 +81,22 @@
   .calendar-links { display: grid; gap: 8px; }
   .nw { display: inline-block; white-space: nowrap; }
   .ics-link { justify-self: center; margin-top: -2px; padding: 4px 8px; border: none; background: none; color: var(--ink-soft); font-family: inherit; font-size: 14px; font-weight: 700; text-decoration: underline; cursor: pointer; }
-  .calendar-links .btn { display: grid; gap: 2px; padding: 12px 10px; font-size: 16px; line-height: 1.35; }
+  .calendar-links .btn { display: grid; gap: 2px; padding: 16px 8px; font-size: 16px; line-height: 1.35; }
   .calendar-links .btn span { white-space: nowrap; }
-  .ext-link { display: grid; gap: 2px; margin: 12px 0; padding: 12px 10px; text-align: center; text-decoration: none; line-height: 1.35; }
+  .ext-link { display: grid; gap: 2px; margin: 16px 0; padding: 16px 8px; text-align: center; text-decoration: none; line-height: 1.35; }
   .ext-link small { font-size: 12px; font-weight: 700; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .calendar-links .btn small { font-size: 13px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
 
   /* ボード（いくつかの日をまとめて表示）。近い順に1行ずつ */
-  .board-head { text-align: center; }
+  .board-head { display: grid; gap: 4px; }
   .board-head .stamp { font-size: 14px; color: var(--ink-soft); }
-  .board-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .board-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
   .board-row {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 16px;
+    padding: 16px;
     border-left: 6px solid var(--row);
     border-radius: var(--radius-md);
     background: #fff;
@@ -109,7 +109,7 @@
   .board-title { font-size: 17px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
   .board-sub { font-size: 13px; color: var(--ink-soft); }
   .board-note { grid-column: 2 / -1; margin-top: -4px; font-size: 13px; font-weight: 700; color: var(--row); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hero .note { margin-top: 2px; font-size: 17px; font-weight: 700; color: var(--accent); }
+  .hero .note { margin-top: 4px; font-size: 17px; font-weight: 700; color: var(--ink-soft); }
   .board-count { font-size: 20px; font-weight: 800; color: var(--row); white-space: nowrap; font-variant-numeric: tabular-nums; }
   [hidden] { display: none !important; }
 
@@ -183,9 +183,8 @@
 
   <section id="empty" class="card empty" hidden>
     <img class="brand-mark" src="icon.svg" alt="" width="72" height="72">
-    <p class="brand-name">くろのす <span class="brand-en">〜Qronos〜</span></p>
+    <h1 class="brand-name">くろのす <span class="brand-en">〜Qronos〜</span></h1>
     <p class="brand-copy">指折り数えて、大切な日を待とう</p>
-    <h1>記念日・カウントダウン</h1>
     <p class="sub">誕生日や記念日、旅行の日までを数えるページを作って、カードで送れます。</p>
     <a class="btn" href="create.html">はじめる</a>
   </section>

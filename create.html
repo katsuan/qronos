@@ -46,7 +46,9 @@
   .ls-input { font-size: 17px; border-width: 2px; }
   textarea.ls-input { min-height: 80px; resize: vertical; }
   .opt { margin-left: 4px; font-size: 13px; font-weight: 400; color: var(--ink-soft); white-space: nowrap; }
-  .ls-panel { gap: 18px; padding: 22px 20px; }
+  .ls-panel { gap: 16px; padding: 24px 16px; }
+  /* キャッチコピーはうすい字に（ツールの色はボタンだけに使う） */
+  .ls-brand-copy { color: var(--ink-soft); }
   /* iOS Safari の日付入力は固有の最小幅を持つためリセットしてはみ出しを防ぐ */
   input[type=date], input[type=time] {
     -webkit-appearance: none;
@@ -56,7 +58,7 @@
     max-width: 100%;
     min-height: 50px;
   }
-  .row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 10px; }
+  .row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 8px; }
   .row > * { min-width: 0; }
 
   /* 種類 */
@@ -66,8 +68,8 @@
   .types span {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
+    gap: 8px;
+    padding: 16px;
     border: 2px solid var(--line);
     border-radius: var(--radius-md);
     background: #fff;
@@ -79,7 +81,7 @@
   .types input:focus-visible + span { outline: 3px solid color-mix(in srgb, var(--accent) 40%, transparent); }
 
   /* 絵文字・色 */
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chips button {
     min-width: 44px;
     height: 44px;
@@ -94,31 +96,32 @@
   .chips .color[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--ink); }
 
   .preview {
-    padding: 14px;
+    padding: 16px;
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--accent) 10%, #fff);
     font-weight: 700;
     text-align: center;
     white-space: pre-line;
+    word-break: auto-phrase; /* 「あと何日？」を言葉の途中で折らない */
   }
   /* ページを作るは大きく（送るボタン ls-button line の大きさは style.css） */
   .ls-button.make { min-height: 54px; font-size: 18px; font-weight: 800; }
   .about p { margin: 0; }
-  .err-msg { margin-top: 6px; font-size: 15px; font-weight: 700; color: #d14a6f; }
+  .err-msg { margin-top: 8px; font-size: 15px; font-weight: 700; color: #d14a6f; }
   .count { font-size: 13px; color: var(--ink-soft); text-align: right; }
-  .out-block { display: grid; gap: 10px; }
-  .page-msg { padding-top: 14px; border-top: 1px dashed var(--line); }
-  .check-row { display: flex; font-weight: 700; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: -6px 0 0; font-size: 15px; }
+  .out-block { display: grid; gap: 8px; }
+  .page-msg { padding-top: 16px; border-top: 1px dashed var(--line); }
+  .check-row { display: flex; font-weight: 700; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: -8px 0 0; font-size: 15px; }
   .check-row input { width: 22px; height: 22px; margin: 0; padding: 0; accent-color: var(--accent); }
   .check-row .opt { flex-basis: 100%; margin: 0 0 0 30px; }
 
   /* ボードにまとめる日の一覧 */
-  .board-box { display: grid; gap: 10px; padding: 14px; border: 2px dashed var(--line); border-radius: var(--radius-md); }
-  .entry-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-  .entry-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px; }
+  .board-box { display: grid; gap: 8px; padding: 16px; border: 2px dashed var(--line); border-radius: var(--radius-md); }
+  .entry-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .entry-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
   .entry-edit {
     display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px;
-    padding: 8px 10px; border: 1px solid var(--line); border-left: 5px solid var(--row); border-radius: 10px;
+    padding: 8px; border: 1px solid var(--line); border-left: 5px solid var(--row); border-radius: 10px;
     background: #fff; color: inherit; font-family: inherit; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer;
   }
   .entry-edit em { font-size: 22px; font-style: normal; }
@@ -136,9 +139,9 @@
       --line: rgba(255, 255, 255, 0.14);
       --card: color-mix(in srgb, var(--accent) 6%, #1c1b22);
       --paper: color-mix(in srgb, var(--accent) 4%, #22212a);
-      background-color: color-mix(in srgb, var(--accent) 10%, #121116);
+      background-color: color-mix(in srgb, var(--accent) 6%, #121116);
     }
-    :root[data-ls-dark="auto"] body { background: linear-gradient(180deg, #121116, color-mix(in srgb, var(--accent) 10%, #121116)); }
+    :root[data-ls-dark="auto"] body { background: color-mix(in srgb, var(--accent) 6%, #121116); }
     :root[data-ls-dark="auto"] .types span,
     :root[data-ls-dark="auto"] .chips button,
     :root[data-ls-dark="auto"] .entry-edit,
@@ -227,7 +230,7 @@
   </form>
 
   <section id="out" class="ls-panel" hidden>
-    <h2 style="margin:0;font-size:22px;text-align:center">できました 🎉</h2>
+    <h2 style="margin:0;font-size:20px">できました 🎉</h2>
     <div class="out-block">
       <a id="lineBtn" class="ls-button is-block line is-oqrn" href="#">カードでおくるん</a>
       <button id="copyBtn" class="ls-button is-block" type="button">🔗 リンクをコピー</button>
