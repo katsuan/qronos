@@ -115,5 +115,5 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 }
 .snap-actions { display: grid; gap: 8px; }
 
-/* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目）。ツールの色はボタンだけに使うので、うすい字に */
-.brand-copy { margin: 0 0 8px; color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
+/* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目） */
+.brand-copy { margin: 0 0 8px; color: #6C47FF; font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
