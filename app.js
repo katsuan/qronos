@@ -26,8 +26,7 @@
   const shareUrl = C.shortUrl(location.href.split("#")[0]);
   $("editBtn").href = `create.html${location.search}`;
   // 2秒だけ「コピーしました！」にして、元のボタン名に戻す（Q キット）
-  // コピーできたらトーストで（ボタンの字を書きかえると、前の線アイコンが消えるため）
-  $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { done: "リンクをコピーしました" });
+  $("copyBtn").onclick = () => LineShareUI.copy(shareUrl, { button: $("copyBtn") });
 
   // 画面の内容を画像に（1件なら大きな日数、ボードなら一覧）
   $("snapBtn").onclick = () => window.CountdownSnapshot.open(board ? { board, fileName: board.name } : { p, fileName: p.title });
