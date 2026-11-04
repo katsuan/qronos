@@ -126,54 +126,62 @@
    * days / unit … 大きく出す数字とその前後の言葉
    */
   function compute(p, now = new Date()) {
-    if (p.type === "until") {
-      const isToday = dayDiff(now, p.date) === 0;
-      const passed = p.date <= now;
-      if (passed && !isToday) {
-        const days = dayDiff(p.date, now);
-        // 過ぎたあとのカウントアップも、100日たった日などはお祝い
-        const party = isCountDay(days) ? `${days.toLocaleString()}日たちました` : "";
-        return { lead: `${p.title}から`, days, unit: "日たちました", target: null, celebrate: !!party, party, sub: fmtDate(p.date, p.hasTime) };
-      }
-      if (passed || (isToday && !p.hasTime)) {
-        return { lead: "", days: null, today: `今日は ${p.title}！`, target: null, celebrate: true, sub: fmtDate(p.date, p.hasTime) };
-      }
-      // 当日で時刻がまだのときは「あと0日」ではなく、時・分・秒だけで数える
-      if (isToday) return { lead: "", days: null, today: `今日は ${p.title}！`, target: p.date, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
-      const left = dayDiff(now, p.date);
-      return { lead: `${p.title}まで`, prefix: "あと", days: left, unit: "日", target: p.date, celebrate: isKiriLeft(left), party: isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "", sub: fmtDate(p.date, p.hasTime) };
-    }
+    if (p.type === "until") return computeUntil(p, now);
+    if (p.type === "yearly") return computeYearly(p, now);
+    return computeSince(p, now);
+  }
 
-    if (p.type === "yearly") {
-      const year = now.getFullYear();
-      let next = inYear(p.date, year);
-      const today = dayDiff(now, next) === 0;
-      if (!today && next < now) next = inYear(p.date, year + 1);
-      // 年なしのときは「○回目」「○日目」を出さない
-      const count = p.noYear ? 0 : next.getFullYear() - p.date.getFullYear();
-      const nth = count > 0 ? `${count}回目の` : "";
-      const since = !p.noYear && p.date <= now ? `${fmtDate(p.date)}から ${dayDiff(p.date, now) + 1}日目` : "";
-      if (today) {
-        return { lead: "", days: null, today: `今日は ${nth}${p.title}！`, target: null, celebrate: true, sub: since, nth: count };
-      }
-      const left = dayDiff(now, next);
-      // 年を書いた記念日は、はじまりの日から数えた日（生まれて10000日目など）もお祝い
-      const nthDay = !p.noYear && p.date <= now ? dayDiff(p.date, now) + 1 : 0;
-      const party = isCountDay(nthDay) ? `今日で ${nthDay.toLocaleString()}日目` : isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "";
-      return {
-        lead: `${nth}${p.title}まで`,
-        prefix: "あと",
-        days: left,
-        unit: "日",
-        target: next,
-        celebrate: !!party,
-        party,
-        sub: `${fmtDate(next)}${since ? `\n${since}` : ""}`,
-        nth: count
-      };
+  // その日まで：あと何日（当日は時・分・秒だけ）。過ぎたら「○日たちました」
+  function computeUntil(p, now) {
+    const isToday = dayDiff(now, p.date) === 0;
+    const passed = p.date <= now;
+    if (passed && !isToday) {
+      const days = dayDiff(p.date, now);
+      // 過ぎたあとのカウントアップも、100日たった日などはお祝い
+      const party = isCountDay(days) ? `${days.toLocaleString()}日たちました` : "";
+      return { lead: `${p.title}から`, days, unit: "日たちました", target: null, celebrate: !!party, party, sub: fmtDate(p.date, p.hasTime) };
     }
+    if (passed || (isToday && !p.hasTime)) {
+      return { lead: "", days: null, today: `今日は ${p.title}！`, target: null, celebrate: true, sub: fmtDate(p.date, p.hasTime) };
+    }
+    // 当日で時刻がまだのときは「あと0日」ではなく、時・分・秒だけで数える
+    if (isToday) return { lead: "", days: null, today: `今日は ${p.title}！`, target: p.date, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
+    const left = dayDiff(now, p.date);
+    return { lead: `${p.title}まで`, prefix: "あと", days: left, unit: "日", target: p.date, celebrate: isKiriLeft(left), party: isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "", sub: fmtDate(p.date, p.hasTime) };
+  }
 
-    // since：はじまりの日を1日目として数える
+  // 毎年の記念日：次の記念日まであと何日（年を書いたときは「○回目」「○日目」も）
+  function computeYearly(p, now) {
+    const year = now.getFullYear();
+    let next = inYear(p.date, year);
+    const today = dayDiff(now, next) === 0;
+    if (!today && next < now) next = inYear(p.date, year + 1);
+    // 年なしのときは「○回目」「○日目」を出さない
+    const count = p.noYear ? 0 : next.getFullYear() - p.date.getFullYear();
+    const nth = count > 0 ? `${count}回目の` : "";
+    const since = !p.noYear && p.date <= now ? `${fmtDate(p.date)}から ${dayDiff(p.date, now) + 1}日目` : "";
+    if (today) {
+      return { lead: "", days: null, today: `今日は ${nth}${p.title}！`, target: null, celebrate: true, sub: since, nth: count };
+    }
+    const left = dayDiff(now, next);
+    // 年を書いた記念日は、はじまりの日から数えた日（生まれて10000日目など）もお祝い
+    const nthDay = !p.noYear && p.date <= now ? dayDiff(p.date, now) + 1 : 0;
+    const party = isCountDay(nthDay) ? `今日で ${nthDay.toLocaleString()}日目` : isKiriLeft(left) ? `ちょうど あと${left.toLocaleString()}日` : "";
+    return {
+      lead: `${nth}${p.title}まで`,
+      prefix: "あと",
+      days: left,
+      unit: "日",
+      target: next,
+      celebrate: !!party,
+      party,
+      sub: `${fmtDate(next)}${since ? `\n${since}` : ""}`,
+      nth: count
+    };
+  }
+
+  // その日から：はじまりの日を1日目として数える（その日より前は「あと○日」）
+  function computeSince(p, now) {
     if (p.date > now) {
       return { lead: `${p.title}まで`, prefix: "あと", days: dayDiff(now, p.date), unit: "日", target: p.date, celebrate: false, sub: fmtDate(p.date, p.hasTime) };
     }

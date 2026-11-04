@@ -64,7 +64,9 @@ h1 { font-size: 26px; font-weight: 800; line-height: 1.35; }
 a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 
 .btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: var(--ls-space-m);
   border: none;
@@ -120,8 +122,6 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 
 /* ボタン・リンクの前の線アイコン（Q キットの .ls-icon）と、字の間 */
 .btn .ls-icon, .ics-link .ls-icon, .back-link .ls-icon, .milestone .ls-icon, .board-count .ls-icon { margin-right: var(--ls-space-s); }
-.btn { display: flex; align-items: center; justify-content: center; }
-.calendar-links .btn, .ext-link { display: grid; }
 .board-mark { width: 40px; height: 40px; color: var(--ink-soft); }
 /* 狭い画面（320px など）では、2つ並びのボタンを1つずつに（字がボタンからはみ出さないように） */
 @media (max-width: 359px) {
