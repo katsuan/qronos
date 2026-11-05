@@ -87,36 +87,6 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ls-space-s); }
 .btn-row .btn { padding: var(--ls-space-m) var(--ls-space-s); font-size: 15px; white-space: nowrap; }
 
-/* 画像で保存：作った画像を出して、長押しで保存してもらう */
-.snap-sheet {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: grid;
-  place-items: center;
-  padding: var(--ls-space-m);
-  background: rgba(20, 16, 40, 0.55);
-}
-.snap-card {
-  display: grid;
-  gap: var(--ls-space-s);
-  width: min(100%, 420px);
-  max-height: 100%;
-  overflow: auto;
-  padding: var(--ls-space-m);
-  border-radius: var(--radius-lg);
-  background: #fff;
-  text-align: center;
-}
-.snap-card img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-md);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  -webkit-touch-callout: default;
-}
-.snap-actions { display: grid; gap: var(--ls-space-s); }
-
 /* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目）。ツールの色はボタンだけに使うので、うすい字に */
 .brand-copy { margin: 0 0 var(--ls-space-s); color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
 

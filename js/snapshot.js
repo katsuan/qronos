@@ -11,14 +11,6 @@
   const INK = "#2f2a44";
   const SOFT = "#6b6680";
 
-  // ボタンの前の線アイコン（Q キットの ui.css の .ls-icon）
-  function lineIcon(name) {
-    const el = Object.assign(document.createElement("span"), { className: "ls-icon" });
-    el.dataset.icon = name;
-    el.setAttribute("aria-hidden", "true");
-    return el;
-  }
-
   // 画像の文字の書体（大きさ・太さ）
   function font(size, weight = 800) {
     return `${weight} ${size}px ${FONT}`;
@@ -195,45 +187,8 @@
     if (board) drawBoard(ctx, board, now);
     else drawSingle(ctx, p, now);
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-    const url = URL.createObjectURL(blob);
-    const file = new File([blob], `${fileName || "countdown"}.png`, { type: "image/png" });
-    showSheet(url, file);
-  }
-
-  // できた画像を見せる窓（長押しで保存・共有・ダウンロード）を出す
-  function showSheet(url, file) {
-    document.getElementById("snapSheet")?.remove();
-    const sheet = document.createElement("div");
-    sheet.id = "snapSheet";
-    sheet.className = "snap-sheet";
-    sheet.innerHTML = `
-      <div class="snap-card" role="dialog" aria-modal="true" aria-label="画像で保存">
-        <img alt="保存用の画像">
-        <p class="note">画像を長押しすると保存できます。</p>
-        <div class="snap-actions"></div>
-        <button type="button" class="btn ghost snap-close">閉じる</button>
-      </div>`;
-    sheet.querySelector("img").src = url;
-    const actions = sheet.querySelector(".snap-actions");
-    if (navigator.canShare?.({ files: [file] })) {
-      const share = Object.assign(document.createElement("button"), { type: "button", className: "btn" });
-      share.append(lineIcon("share"), "共有・保存");
-      share.onclick = () => navigator.share({ files: [file] }).catch(() => {});
-      actions.append(share);
-    }
-    const download = Object.assign(document.createElement("a"), { className: "btn ghost", href: url, download: file.name });
-    download.append(lineIcon("save"), "ダウンロード");
-    actions.append(download);
-    // 窓を閉じて、画像の URL を片づける
-    const close = () => {
-      sheet.remove();
-      URL.revokeObjectURL(url);
-    };
-    sheet.querySelector(".snap-close").onclick = close;
-    sheet.addEventListener("click", (e) => {
-      if (e.target === sheet) close();
-    });
-    document.body.append(sheet);
+    // 保存の窓は Q キットのもの（長押しで保存・共有・ダウンロード）
+    window.LineShareUI?.imageSheet(blob, { name: `${fileName || "countdown"}.png`, alt: "保存用の画像" });
   }
 
   window.CountdownSnapshot = { open };
