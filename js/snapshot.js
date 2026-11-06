@@ -76,7 +76,7 @@
     ctx.textAlign = "center";
     ctx.fillText(`🕒 ${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()} 時点`, W / 2, H - 92);
     ctx.font = font(24, 700);
-    ctx.fillText("くろのす 〜Qronos〜 ｜ katsuan.github.io/countdown", W / 2, H - 52);
+    ctx.fillText("くろのす 〜Qronos〜 ｜ katsuan.github.io/qronos", W / 2, H - 52);
   }
 
   // 1件の画像（大きな日数・名前・日付）を描く
