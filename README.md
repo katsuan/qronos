@@ -2,12 +2,12 @@
 
 名前は「くろのす」。ギリシャ神話の時の神クロノス（Chronos）から（農耕の神 Kronos とは別。Unix の定期実行 cron の名前も chronos から。作成ページの下の「「くろのす」という名前について」に由来を書いている）。英字は Qronos（おくるん＝OQRN・キロっく＝kiloQ と同じ作り方で、「く」を Q にする）。
 
-アイコン（`icon.svg`・`icon-32.png`・`apple-touch-icon.png`・`icon-512.png`・`icon-maskable-512.png`）・横長のロゴ（`logo.svg`）・共有したときの画像（`ogp.png`）は `python3 tools/icon.py` で作る（図形を描く部分は、となりのおくるん（`~/GitHub/q-oqrn`。GitHub のリポジトリ名は line-share）の `tools/brandkit.py`）。ページと同じむらさきに、右に口の開いた白い C（Chronos の C）。口に砂時計をはめて輪を閉じ、右下のしっぽは真ん中に向けて紙吹雪がはじけるクラッカーで Q。まわりの飾りは置かない。ロゴは Q をアイコンと同じ形にして、r・o・n・o・s をフォント（Jua）で並べる。ホーム画面に追加したとき用に `manifest.webmanifest`。
+アイコン（`icon.svg`・`icon-32.png`・`apple-touch-icon.png`・`icon-512.png`・`icon-maskable-512.png`）・横長のロゴ（`logo.svg`）・共有したときの画像（`ogp.png`）は `python3 tools/icon.py` で作る（図形を描く部分は、となりのおくるん（`~/GitHub/q-oqrn`。GitHub のリポジトリ名は oqrn）の `tools/brandkit.py`）。ページと同じむらさきに、右に口の開いた白い C（Chronos の C）。口に砂時計をはめて輪を閉じ、右下のしっぽは真ん中に向けて紙吹雪がはじけるクラッカーで Q。まわりの飾りは置かない。ロゴは Q をアイコンと同じ形にして、r・o・n・o・s をフォント（Jua）で並べる。ホーム画面に追加したとき用に `manifest.webmanifest`。
 
-おくるんのトップの「ほかのツール」（line-share の `data/hub-links.json`）には「くろのす 〜Qronos〜」として、このアイコン付きで載せている。
+おくるんのトップの「ほかのツール」（oqrn の `data/hub-links.json`）には「くろのす 〜Qronos〜」として、このアイコン付きで載せている。
 
 
-「あと何日？」「今日で何日目？」をいつでも確かめられるページを作り、[おくるん](https://katsuan.github.io/line-share/)のお知らせカードで LINE に送れる静的サイトです。GitHub Pages でそのまま動きます。
+「あと何日？」「今日で何日目？」をいつでも確かめられるページを作り、[おくるん](https://katsuan.github.io/oqrn/)のお知らせカードで LINE に送れる静的サイトです。GitHub Pages でそのまま動きます。
 
 - `create.html`・`create.js` … 種類・名前・日付などを入れてページを作る（`create.js` が入口）
 - `index.html`・`app.js` … パラメータの内容で、残り・経過をその場で計算して表示する（1秒ごとに更新、当日や節目は紙吹雪。`app.js` が入口）
@@ -21,7 +21,7 @@
 - `style.css` … 共通の見た目（色は `--accent`。ページを開くと選んだ色に置き換わる）
 
 
-作るページ（`create.html`）の部品（見出しの行・カード・入力欄・ボタン・説明の開閉）は、おくるんの Q キット（`https://katsuan.github.io/line-share/shared/ui.css`。使い方はおくるんの README）。Q キットの色（`--ls-accent` など）は、作る人が選んだ色（`--accent`）につないでいる。年配の方にも読みやすいよう、ラベルと入力欄は Q キットより大きめ。受け取る人のページ（`index.html`）は、お祝いの見た目そのものなので Q キットを使わない。
+作るページ（`create.html`）の部品（見出しの行・カード・入力欄・ボタン・説明の開閉）は、おくるんの Q キット（`https://katsuan.github.io/oqrn/shared/ui.css`。使い方はおくるんの README）。Q キットの色（`--ls-accent` など）は、作る人が選んだ色（`--accent`）につないでいる。年配の方にも読みやすいよう、ラベルと入力欄は Q キットより大きめ。受け取る人のページ（`index.html`）は、お祝いの見た目そのものなので Q キットを使わない。
 ## 種類
 
 | `type` | 内容 | 表示 |
@@ -95,7 +95,7 @@
 - `e` は `種類~日付~名前~絵文字~色~ひとこと`（1件ごと。2件以上でボードになる）
 - `name` はボードの名前、`msg`（ひとこと）はボード全体に1つ（作成ページでも日ごとではなく最後に1つ入れる）
 - おくるんには、ボードの名前と「あと○日｜🎂 名前」の一覧、「📋 ボードを開く」ボタンのカードで渡す
-- 公開は GitHub Actions（`.github/workflows/pages.yml`。中身は Q 共通の line-share の `q-pages.yml`）。push すると、テストと check-code が通ったときだけ Pages に出す。読みこむ JS・CSS の `?v=` は公開のときに付くので、手で付けなくてよい（index.html・create.html とも）
+- 公開は GitHub Actions（`.github/workflows/pages.yml`。中身は Q 共通の oqrn の `q-pages.yml`）。push すると、テストと check-code が通ったときだけ Pages に出す。読みこむ JS・CSS の `?v=` は公開のときに付くので、手で付けなくてよい（index.html・create.html とも）
 
 ## おくるんへの渡し方
 
@@ -119,7 +119,7 @@ python3 -m http.server 8794
 
 ## 紹介の窓口
 
-「くろのすを紹介する」（おくるんのマーク）（作成ページの下）は、おくるんの `shared/tool-share.js`（`data-tool="qronos"`）。押すとおくるんで紫の紹介カードを作って LINE に送れる（リンクのシェアも選べる）。中身は line-share の `data/hub-links.json` の `key: "qronos"`。
+「くろのすを紹介する」（おくるんのマーク）（作成ページの下）は、おくるんの `shared/tool-share.js`（`data-tool="qronos"`）。押すとおくるんで紫の紹介カードを作って LINE に送れる（リンクのシェアも選べる）。中身は oqrn の `data/hub-links.json` の `key: "qronos"`。
 
 ## すくすく（SuQSuQ）とのつながり
 

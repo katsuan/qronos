@@ -26,8 +26,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
 <!-- Q キット（おくるんの共通部品）。作るページだけで使う。色は選んだ色（--accent）につなぐ -->
-<link rel="stylesheet" href="https://katsuan.github.io/line-share/shared/ui.css?v=202610261000">
-<script src="https://katsuan.github.io/line-share/shared/ui.js?v=202610291757" defer></script>
+<link rel="stylesheet" href="https://katsuan.github.io/oqrn/shared/ui.css?v=202610261000">
+<script src="https://katsuan.github.io/oqrn/shared/ui.js?v=202610291757" defer></script>
 <link rel="stylesheet" href="style.css?v=202611012034">
 <style>
   /* Q キットの色と字を、くろのすの色（作る人が選んだ色）と丸ゴシックに */
@@ -239,7 +239,7 @@
     <p class="note">受け取った人は、カードのボタンからいつでも最新の「あと何日？」を見られます。</p>
   </section>
 
-  <!-- 「📤 くろのすを紹介する」：おくるんで紹介カードを送る窓口（line-share/shared/tool-share.js。中身は line-share/data/hub-links.json） -->
+  <!-- 「📤 くろのすを紹介する」：おくるんで紹介カードを送る窓口（oqrn/shared/tool-share.js。中身は oqrn/data/hub-links.json） -->
   <div data-tool-share></div>
 
   <!-- 名前の由来（時の神 Chronos）。ふだんは閉じておく -->
@@ -254,13 +254,13 @@
   </details>
 </main>
 
-<!-- おくるんのカードの入口（LIFF ID とカードの URL は line-share の shared/oqrn.js に1か所） -->
-<script src="https://katsuan.github.io/line-share/shared/oqrn.js"></script>
+<!-- おくるんのカードの入口（LIFF ID とカードの URL は oqrn の shared/oqrn.js に1か所） -->
+<script src="https://katsuan.github.io/oqrn/shared/oqrn.js"></script>
 <script src="js/count.js?v=202611012034"></script>
 <script src="js/link.js?v=202611012034"></script>
 <script src="js/card.js?v=202611012034"></script>
 <script src="js/calendar.js?v=202611012034"></script>
-<script src="https://katsuan.github.io/line-share/shared/tool-share.js" data-tool="qronos" defer></script>
+<script src="https://katsuan.github.io/oqrn/shared/tool-share.js" data-tool="qronos" defer></script>
 <script src="create.js?v=202611012034"></script>
 <!-- 電波がなくても開けるように（sw.js） -->
 <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});</script>
