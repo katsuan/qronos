@@ -49,13 +49,13 @@ body {
   box-shadow: var(--shadow);
 }
 
-h1 { font-size: 26px; font-weight: 800; line-height: 1.35; }
+h1 { font-size: 26px; font-weight: 700; line-height: 1.35; }
 .sub { font-size: 16px; color: var(--ink-soft); }
 .note { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
 
 /* 名前（くろのす 〜Qronos〜）。作成ページの上と、表示ページの「はじめる」に出す */
 .brand-mark { display: block; margin: 0 auto; }
-.brand-name { display: flex; align-items: center; gap: var(--ls-space-s); margin: 0; font-size: 20px; font-weight: 800; color: var(--ink); }
+.brand-name { display: flex; align-items: center; gap: var(--ls-space-s); margin: 0; font-size: 20px; font-weight: 700; color: var(--ink); }
 .brand-en { font-size: 13px; letter-spacing: 0.02em; }
 
 /* 名前の由来（たたんだ欄） */
@@ -75,20 +75,20 @@ a { color: color-mix(in srgb, var(--accent) 80%, #000); }
   color: #fff;
   font-family: inherit;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
 }
 
 /* 送るボタン：色は Q キットの ls-button line（LINE の緑）。ここでは大きさだけ */
-.ls-button.line { gap: var(--ls-space-xs); flex-wrap: wrap; min-height: 54px; font-size: 18px; font-weight: 800; }
+.ls-button.line { gap: var(--ls-space-xs); flex-wrap: wrap; min-height: 54px; font-size: 18px; font-weight: 700; }
 .btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); font-size: 16px; }
 .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ls-space-s); }
 .btn-row .btn { padding: var(--ls-space-m) var(--ls-space-s); font-size: 15px; white-space: nowrap; }
 
 /* キャッチコピー（見出しの行のすぐ下。おくるんの「つくって、おくるん」と同じ役目）。ツールの色はボタンだけに使うので、うすい字に */
-.brand-copy { margin: 0 0 var(--ls-space-s); color: var(--ink-soft); font-size: 13px; font-weight: 800; line-height: 1.4; letter-spacing: 0.02em; }
+.brand-copy { margin: 0 0 var(--ls-space-s); color: var(--ink-soft); font-size: 13px; font-weight: 700; line-height: 1.4; letter-spacing: 0.02em; }
 
 /* ボタン・リンクの前の線アイコン（Q キットの .ls-icon）と、字の間 */
 .btn .ls-icon, .ics-link .ls-icon, .back-link .ls-icon, .milestone .ls-icon, .board-count .ls-icon { margin-right: var(--ls-space-s); }
