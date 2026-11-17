@@ -4,6 +4,7 @@
 (function (C) {
   "use strict";
   const { COLORS, DAY, TYPES, defaultTitle, pad, parseDate } = C;
+  const N = window.QronosNames;
 
   // URL で受けとる文字の長さ（作る画面の上限より少し長め。古いリンクも読めるように）
   const LIMITS = { title: 60, emoji: 16, from: 40, msg: 300, name: 40, link: 1500, linkLabel: 20 };
@@ -223,9 +224,9 @@
   // 「その日まで」が出産予定日のときだけ「妊娠◯週」にする（すくすくの節目「3さいの誕生日まで」などは、生まれた日がわからないので出さない）
   const DUE_WORDS = /出産|予定日|に会える日|🤰/;
   const SUQSUQ_SUBS = {
-    birth: "生まれて◯日目を写真・動画に（SuQSuQ）",
-    due: "「妊娠◯週」を写真・動画に（SuQSuQ）",
-    since: "この日から◯日目を写真・動画に（SuQSuQ）"
+    birth: `生まれて◯日目を写真・動画に（${N.suqsuq}）`,
+    due: `「妊娠◯週」を写真・動画に（${N.suqsuq}）`,
+    since: `この日から◯日目を写真・動画に（${N.suqsuq}）`
   };
 
   /** すくすくへのリンク { kind, url, sub }。出さないときは null */
